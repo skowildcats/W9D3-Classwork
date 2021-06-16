@@ -20,30 +20,33 @@ class FollowToggle {
 
   render() {
 
-    if (this.followState) {
+    if (this.followState === true) {
       this.$el.empty().append("Unfollow!")
-    } else {
+    } else if (this.followState === false) {
       this.$el.empty().append("Follow!")
     }
   }
 
   handleClick() {
-    // debugger
 
     let myPromise = new Promise((myResolve, myReject) => {
-      let followState = this.followState
+      debugger
 
+      this.$el.prop({ "disabled": true })
+      
       if (this.followState === false) {
+        this.$el.empty().append("Following...")
         this.util.followUser(this.userId)
-        myResolve()
-      } else {
+      } else if (this.followState === true) {
+        this.$el.empty().append("Unfollowing...")
         this.util.unfollowUser(this.userId)
-        myResolve()
       }
+      myResolve()
 
     })
 
     myPromise.then(() => {
+      this.$el.prop({"disabled": false})
       this.followState = !this.followState
       this.render()
     })
