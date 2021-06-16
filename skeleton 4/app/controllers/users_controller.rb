@@ -35,6 +35,7 @@ class UsersController < ApplicationController
   def search
     if params[:query].present?
       @users = User.where('username ~ ?', params[:query])
+      # debugger
     else
       @users = User.none
     end
